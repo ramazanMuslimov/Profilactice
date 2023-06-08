@@ -1,0 +1,25 @@
+{% extends 'default.html' %}
+{% load custom_filters %}
+{% load custom_tags %}
+
+
+{% block title %}
+News
+{% endblock title %}
+
+
+{% block content %}
+<h1>Все новости!</h1>
+
+
+{% if posts %}
+
+    {% for post in posts %}
+
+        {% include 'news/card.html' %}
+
+    {% endfor %}
+
+
+{% endif %}
+{% endblock content %}

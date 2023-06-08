@@ -1,0 +1,19 @@
+{% load custom_filters %} 
+
+
+<div class="card">
+    <h5>{{ post.title }}</h5>
+
+        {% for category in post.postCategory.all %}
+        <span class="badge bg-success">{{ category }}</span>
+        {% endfor %}
+
+        <span class="badge text-bg-dark">Author: {{ post.author|censor }}</span>
+        <span class="badge text-bg-dark">Date: {{ post.dateCreation}}</span>
+
+
+        <div class="card-body">
+            {{ post.preview }}
+            
+    </div>
+</div>
