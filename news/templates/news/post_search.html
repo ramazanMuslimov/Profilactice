@@ -4,23 +4,55 @@
 
 
 {% block title %}
-News
+Search
 {% endblock title %}
 
 
 {% block content %}
-<h1>Все новости</h1>
-
-    <!-- Форма поиска новостей и статей -->
-    {% include 'news/form.html' %}
-    {% include 'news/datetime.html' %}
+<h1>Новости</h1>
 
 
-{% if posts %}
+{{ filterset.form.non_field_errors }}
 
-    {% for post in posts %}
-        <!-- Таблица -->
-        {% include 'news/card.html' %}
+{{ filterset.form.name__icontains.errors }}
+{% csrf_token %}
+
+<label for="site-search">Поиск:</label>
+<input type="search" id="site-search" name="q"> 
+<button>Найти</button>
+
+    <br>
+
+    <label for="party">Выбрать дату:</label>
+    <input
+    id="party"
+    type="datetime-local"
+    name="partydate"
+    value="2017-06-01T08:30" />
+
+
+
+
+{% if post_search %}
+
+    {% for post in post_search %}
+
+    <div class="card">
+        <h5>{{ post.title }}</h5>
+    
+            {% for category in post.postCategory.all %}
+            <span class="badge bg-success">{{ category }}</span>
+            {% endfor %}
+    
+            <span class="badge text-bg-dark">Author: {{ post.author|censor }}</span>
+            <span class="badge text-bg-dark">Date: {{ post.dateCreation}}</span>
+    
+    
+            <div class="card-body">
+                {{ post.preview }}
+                
+        </div>
+    </div>
 
     {% endfor %}
 
@@ -43,5 +75,6 @@ News
            ...
            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
        {% endif %}
+
    {% endif %}
 {% endblock content %}

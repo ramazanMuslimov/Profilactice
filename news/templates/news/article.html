@@ -4,17 +4,18 @@
 
 
 {% block title %}
-News
+Article
 {% endblock title %}
 
 
 {% block content %}
-<h1>Все новости</h1>
+<h1>Все статьи</h1>
 
     <!-- Форма поиска новостей и статей -->
     {% include 'news/form.html' %}
-    {% include 'news/datetime.html' %}
 
+    <!-- Поиск по дате -->
+    {% include 'news/datetime.html' %}
 
 {% if posts %}
 
