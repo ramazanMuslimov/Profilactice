@@ -1,4 +1,6 @@
 from datetime import datetime
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from typing import Any, Dict
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -24,9 +26,10 @@ class PostList(ListView):
        return self.filterset.qs
     
     def get_context_data(self, **kwargs):
-       context = super().get_context_data(**kwargs)
-       context['filterset'] = self.filterset
-       return context
+        context = super().get_context_data(**kwargs)
+        context['time_now'] = datetime.utcnow()
+        context['next_sale'] = "Новостей нет!"
+        return context
 
 
 # Поиск новостей через отдельную страницу 'search'
@@ -53,7 +56,8 @@ class PostDetail(DetailView):
     context_object_name = 'post'
 
 
-class PostCreate(CreateView):
+class PostCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
     form_class = PostForm
     model = Post
     template_name = 'news/post_edit.html'
